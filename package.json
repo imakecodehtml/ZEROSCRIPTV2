@@ -1,0 +1,36 @@
+{
+  "name": "zeroscript",
+  "version": "1.0.0",
+  "description": "ZEROSCRIPT local manifest library",
+  "main": "src/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^39.8.10",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.zeroscript.app",
+    "productName": "ZEROSCRIPT",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "ZEROSCRIPT-${version}-Portable.exe"
+    }
+  }
+}
