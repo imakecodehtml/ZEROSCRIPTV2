@@ -1,0 +1,50 @@
+
+name: Build ZEROSCRIPT Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compile Windows EXE
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify environment
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          ELECTRON_CACHE: ${{ runner.temp }}\electron-cache
+
+      - name: Verify Electron installation
+        run: npx electron --version
+
+      - name: Build portable executable
+        run: npm run dist
+
+      - name: Upload ZEROSCRIPT EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZEROSCRIPT-Windows-EXE
+          path: release/*.exe
+          if-no-files-found: error
+          retention-days: 14
